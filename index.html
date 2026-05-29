@@ -1,344 +1,169 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fairfax County Housing Continuum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-sans);background:var(--color-background-tertiary);padding:12px}
-.pbi-shell{background:#1a1a2a;border-radius:var(--border-radius-lg);overflow:hidden;display:flex;flex-direction:column}
-.pbi-topbar{background:#1a1a2a;padding:7px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.08)}
-.pbi-logo{font-size:11px;color:#c8c9ca;display:flex;align-items:center;gap:5px}
-.pbi-logo i{color:#F2C811;font-size:13px}
-.pbi-breadcrumb{font-size:10px;color:rgba(255,255,255,.3);margin-left:6px}
-.pbi-tabs{display:flex;gap:0;margin-left:auto}
-.pbi-tab{font-size:10px;color:rgba(255,255,255,.35);padding:4px 10px;border-bottom:2px solid transparent}
-.pbi-tab.on{color:#fff;border-bottom-color:#F2C811}
-.pbi-canvas{background:#f3f2f1;padding:8px;display:grid;grid-template-columns:200px 1fr;gap:7px;min-height:610px}
-.pbi-lp{display:flex;flex-direction:column;gap:6px}
-.pbi-card{background:#fff;border-radius:3px;padding:9px;border:0.5px solid #e0e0e0}
-.pbi-card-title{font-size:8.5px;font-weight:500;color:#605e5c;text-transform:uppercase;letter-spacing:.07em;margin-bottom:7px;display:flex;justify-content:space-between;align-items:center}
-.pbi-card-hint{text-transform:none;letter-spacing:0;font-weight:400;color:#b0b0b0}
-.hh-btns{display:grid;grid-template-columns:repeat(4,1fr);gap:3px}
-.hh-btn{border:1px solid #d0d0d0;border-radius:2px;padding:5px 2px;text-align:center;background:#faf9f8;font-size:9px;color:#605e5c;line-height:1.3;cursor:pointer;transition:all .12s}
-.hh-btn.on{background:#0078d4;border-color:#0078d4;color:#fff;font-weight:500}
-.hh-num{font-size:13px;font-weight:500;display:block}
-.hh-btn.on .hh-num{color:#fff}
-.pbi-income-val{font-size:17px;font-weight:500;color:#1f3864;letter-spacing:-.3px;margin-bottom:2px}
-.pbi-badge{display:inline-block;font-size:9px;font-weight:500;padding:2px 7px;border-radius:2px;margin-bottom:5px}
-.badge-blue{background:#dce9f8;color:#0c447c}
-.badge-amber{background:#fdf2d0;color:#7a3e00}
-.badge-green{background:#e8f4e8;color:#1a6b1a}
-.pbi-slider-track{height:4px;background:#e0e0e0;border-radius:2px;position:relative;margin:6px 0 10px}
-.pbi-slider-fill{position:absolute;left:0;height:100%;background:#0078d4;border-radius:2px;transition:width .15s}
-.pbi-slider-thumb{position:absolute;top:50%;width:12px;height:12px;background:#0078d4;border:2px solid #fff;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .15s}
-.pbi-ticks{display:flex;justify-content:space-between;font-size:7.5px;color:#b0b0b0;margin-top:-4px}
-.fpl-strip{font-size:8px;padding:4px 6px;border-radius:2px;display:none;align-items:center;gap:4px;margin-top:3px}
-.fpl-strip.show{display:flex}
-.fpl-below{background:#fcebeb;color:#791f1f}
-.fpl-above{background:#eef6ee;color:#1a6b1a}
-.job-slicer{display:flex;flex-direction:column;gap:3px}
-.job-row{padding:5px 6px;border:0.5px solid #e0e0e0;border-radius:2px;background:#faf9f8;cursor:pointer;transition:all .12s}
-.job-row:hover{border-color:#0078d4;background:#f0f6fc}
-.job-row.on{background:#dce9f8;border-color:#0078d4}
-.job-name{font-size:9px;color:#3b3a39;line-height:1.3}
-.job-row.on .job-name{color:#0c447c;font-weight:500}
-.job-sub{font-size:8px;color:#a0a0a0}
-.job-row.on .job-sub{color:#4a7fba}
-.job-note{font-size:8px;color:#a0a0a0;margin-top:5px;font-style:italic;line-height:1.4}
-.pbi-steps{background:#fff;border-radius:3px;border:0.5px solid #e0e0e0}
-.pbi-step{display:flex;align-items:flex-start;gap:6px;padding:6px 8px;border-bottom:0.5px solid #f0f0f0}
-.pbi-step:last-child{border-bottom:none}
-.step-num{width:14px;height:14px;background:#1f3864;color:#fff;border-radius:50%;font-size:8px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.step-txt{font-size:9px;color:#3b3a39;line-height:1.4}
-.step-txt strong{color:#1f3864;font-weight:500}
-.pbi-rp{display:flex;flex-direction:column;gap:6px}
-.rp-top{font-size:11px;font-weight:500;color:#1f3864}
-.rp-sub{font-size:8px;color:#a0a0a0;margin-top:1px}
-.pbi-legend{display:flex;gap:9px;flex-wrap:wrap}
-.legend-item{display:flex;align-items:center;gap:4px;font-size:8.5px;color:#605e5c}
-.legend-sw{width:9px;height:9px;border-radius:1px;flex-shrink:0}
-.visual-badge{font-size:7.5px;background:#f3f2f1;border:0.5px solid #d0d0d0;border-radius:2px;padding:1px 5px;color:#a0a0a0;margin-left:auto;letter-spacing:.03em;align-self:flex-start;flex-shrink:0}
-.chart-link-wrap{background:#fff;border-radius:3px;border:0.5px solid #e0e0e0;overflow:hidden;flex:1;display:flex;flex-direction:column}
-.pbi-axis{position:relative;padding:8px 10px 0 10px;border-bottom:0.5px solid #f0f0f0;margin-bottom:4px}
-.pbi-axis-bar{height:6px;border-radius:3px;background:linear-gradient(to right,#dde9f6 0%,#c8e0cb 50%,#e1e8c8 78%,#ece9dc 100%);position:relative}
-.pbi-you-line{position:absolute;top:-5px;width:2px;height:16px;background:#E24B4A;border-radius:1px;transform:translateX(-50%);transition:left .15s}
-.pbi-fpl-line{position:absolute;top:-4px;width:1.5px;height:14px;background:#888;transform:translateX(-50%)}
-.pbi-markers{position:relative;height:13px;margin-top:2px}
-.pbi-marker{position:absolute;top:0;font-size:7.5px;font-weight:500;transform:translateX(-50%);white-space:nowrap;padding:1px 3px;border-radius:2px;transition:left .15s}
-.m-you{background:#fcebeb;color:#791f1f}
-.m-fpl{background:#f1efe8;color:#5f5e5a}
-.pbi-ami-row{position:relative;height:11px;margin-top:1px;margin-bottom:6px}
-.pbi-ami-label{position:absolute;top:0;font-size:7.5px;color:#b0b0b0;transform:translateX(-50%);white-space:nowrap}
-.chart-link-body{display:grid;grid-template-columns:1fr 90px;gap:0;flex:1;padding:0 10px}
-.band-area{padding-right:8px;border-right:0.5px solid #f0f0f0;padding-top:4px}
-.section-head{font-size:8px;font-weight:500;color:#605e5c;text-transform:uppercase;letter-spacing:.07em;display:flex;align-items:center;gap:4px;margin:8px 0 4px;padding-top:7px;border-top:0.5px solid #f0f0f0}
-.section-head:first-of-type{margin-top:0;padding-top:0;border-top:none}
-.section-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-.section-count{margin-left:auto;font-size:7.5px;color:#b0b0b0;font-weight:400;text-transform:none;letter-spacing:0}
-.band-row{display:flex;align-items:center;gap:5px;margin-bottom:2.5px;height:20px}
-.band-lbl{font-size:8.5px;color:#a0a0a0;width:135px;flex-shrink:0;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.band-lbl.eligible{color:#1f3864;font-weight:500}
-.band-track{flex:1;height:12px;background:#f3f2f1;border-radius:2px;position:relative;overflow:visible}
-.band-fill{position:absolute;top:0;left:0;height:100%;border-radius:2px;transition:background .15s}
-.band-you{position:absolute;top:-2px;width:2px;height:16px;background:#E24B4A;border-radius:1px;transform:translateX(-50%);z-index:2;transition:left .15s}
-.band-cap{position:absolute;top:50%;font-size:7.5px;font-weight:500;transform:translateY(-50%);white-space:nowrap;padding-left:3px}
-.band-statusflag{position:absolute;top:50%;left:4px;transform:translateY(-50%);font-size:7px;font-weight:500;color:#fff;text-shadow:0 0 2px rgba(0,0,0,.3);white-space:nowrap;pointer-events:none}
-.link-col{padding-left:8px;display:flex;flex-direction:column;padding-top:4px}
-.link-col-head{font-size:8px;font-weight:500;color:#605e5c;text-transform:uppercase;letter-spacing:.07em;padding-bottom:4px;border-bottom:0.5px solid #f0f0f0;white-space:nowrap}
-.link-section-spacer{height:24px;flex-shrink:0}
-.link-section-spacer.first{height:0}
-.link-row{height:20px;display:flex;align-items:center;margin-bottom:2.5px}
-.prog-link{font-size:8.5px;color:#0078d4;text-decoration:none;display:flex;align-items:center;gap:3px;white-space:nowrap;transition:opacity .12s}
-.prog-link:hover{text-decoration:underline}
-.prog-link.dim{color:#d0d0d0;pointer-events:none}
-.prog-link i{font-size:11px}
-.pbi-tick-row{padding:4px 10px 8px 10px;border-top:0.5px solid #f0f0f0;margin-top:4px}
-.pbi-tick-labels{display:flex;justify-content:space-between;font-size:7.5px;color:#c0c0c0}
-.pbi-footer{font-size:8px;color:rgba(255,255,255,.25);padding:4px 14px;background:#1a1a2a;border-top:1px solid rgba(255,255,255,.06);text-align:right}
+:root{--coral:#F69325;--coral-lt:#FEF0DC;--coral-dk:#7A4400;--green:#57AC19;--green-lt:#E6F4D7;--green-dk:#2B5A06;--blue:#004AAC;--blue-lt:#D9E7FA;--blue-dk:#002760;--bg:#F5F5F2;--card:#FFF;--bdr:#E0DDD6;--bdr2:#ECEAE3;--txt:#1A1A1A;--txt2:#4A4A4A;--txt3:#8C8C86;--red:#C8453C;--red-lt:#FBE5E2;--red-dk:#6B1A14}
+*{box-sizing:border-box;margin:0;padding:0}html,body{height:100%;overflow:hidden}
+body{font-family:'Montserrat',system-ui,sans-serif;background:var(--bg);color:var(--txt);font-size:13px;line-height:1.4;padding:12px 16px 10px;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
+.h{font-family:'Cabin',sans-serif}.n{font-feature-settings:"tnum" 1}
+.hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-shrink:0}
+.hdr-l{display:flex;align-items:center;gap:14px}
+.ttl{font-family:'Cabin',sans-serif;font-size:20px;font-weight:700;color:var(--blue);line-height:1}
+.sub{font-size:12.8px;color:var(--txt2);font-weight:500}
+.meta{font-size:10.24px;color:var(--txt3);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.steps{display:flex;background:var(--card);border:1px solid var(--bdr);border-radius:6px;margin-bottom:10px;flex-shrink:0;overflow:hidden}
+.step{display:flex;align-items:center;gap:8px;padding:7px 14px;flex:1;position:relative}
+.step:not(:last-child)::after{content:"";position:absolute;right:0;top:7px;bottom:7px;width:1px;background:var(--bdr2)}
+.sn{width:20px;height:20px;background:var(--blue);color:#fff;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Cabin'}
+.st{font-size:12.8px;color:var(--txt2);line-height:1.35}.st strong{color:var(--txt);font-weight:600}
+.wrap{display:grid;grid-template-columns:270px 1fr;gap:12px;flex:1;min-height:0}
+.lp,.rp{background:var(--card);border:1px solid var(--bdr);border-radius:8px;display:flex;flex-direction:column;min-height:0}
+.lp{padding:14px;gap:16px}.rp{padding:14px 16px}
+.sl{font-family:'Cabin';font-size:10.24px;font-weight:700;color:var(--txt3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.hg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.hb{border:1.5px solid var(--bdr);border-radius:6px;padding:8px 2px;text-align:center;cursor:pointer;background:var(--card);color:var(--txt2);font-family:'Montserrat';font-size:12.8px;line-height:1.2;transition:all .15s}
+.hb:hover:not(.on){background:#F0EDE5;border-color:#C8C3B5}.hb.on{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600}
+.hn{font-family:'Cabin';font-size:18px;font-weight:700;display:block;color:var(--blue);line-height:1.1}.hb.on .hn{color:#fff}
+.iv{font-family:'Cabin';font-size:25px;font-weight:700;color:var(--blue);letter-spacing:-.02em;line-height:1;margin-bottom:6px;font-feature-settings:"tnum" 1}
+.ab{display:inline-flex;font-family:'Cabin';font-size:12.8px;font-weight:700;padding:3px 10px;border-radius:4px}
+.ab-b{background:var(--blue-lt);color:var(--blue-dk)}.ab-c{background:var(--coral-lt);color:var(--coral-dk)}.ab-g{background:var(--green-lt);color:var(--green-dk)}.ab-r{background:var(--red-lt);color:var(--red-dk)}
+.sw{margin-top:10px}input[type=range]{width:100%;cursor:pointer;accent-color:var(--blue);height:4px}
+.stk{position:relative;height:14px;margin-top:5px}.stv{position:absolute;top:0;font-size:10.24px;color:var(--txt3);transform:translateX(-50%);white-space:nowrap;font-weight:600;font-feature-settings:"tnum" 1}
+.stm{position:absolute;top:-4px;width:1px;height:3px;background:var(--txt3);opacity:.4;transform:translateX(-50%)}
+.fp{display:none;align-items:center;gap:6px;font-size:12.8px;line-height:1.35;padding:7px 10px;border-radius:5px;margin-top:8px}.fp.show{display:flex}.fp.bel{background:var(--red-lt);border:1px solid #E8B5AE;color:var(--red-dk)}
+.jb{display:flex;flex-direction:column;gap:6px}
+.jl{font-family:'Cabin';font-size:10.24px;font-weight:700;color:var(--txt3);text-transform:uppercase;letter-spacing:.1em;display:flex;align-items:baseline;gap:6px}
+.jh{font-family:'Montserrat';text-transform:none;letter-spacing:0;font-weight:500;color:var(--txt3);font-size:10.24px}
+.jc{display:flex;flex-wrap:wrap;gap:5px}
+.jk{border:1.5px solid var(--bdr);border-radius:6px;background:var(--card);padding:5px 9px;cursor:pointer;display:flex;flex-direction:column;gap:1px;transition:all .14s;text-align:left}
+.jk:hover{border-color:var(--blue);background:#F7F9FD;transform:translateY(-1px)}.jk.on{background:var(--blue);border-color:var(--blue)}
+.jkl{font-size:11px;color:var(--txt2);font-weight:600;line-height:1.2}.jk.on .jkl{color:#fff}
+.jks{font-size:10px;color:var(--txt3);line-height:1.15;font-feature-settings:"tnum" 1}.jk.on .jks{color:#B3CBE8}
+.jn{font-size:10.24px;color:var(--txt3);font-style:italic;line-height:1.35;margin-top:2px}
+.lg{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px;padding-bottom:9px;border-bottom:1px solid var(--bdr2)}
+.li{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--txt2);font-weight:500}
+.ls{width:11px;height:11px;border-radius:2px;flex-shrink:0}
+.ac{margin-bottom:12px}.ab2{height:7px;border-radius:4px;position:relative;background:linear-gradient(to right,var(--coral-lt) 0%,var(--green-lt) 50%,var(--blue-lt) 100%)}
+.fl{position:absolute;top:-4px;width:1.5px;height:15px;background:#6B6B60;transform:translateX(-50%);transition:left .18s}
+.yl{position:absolute;top:-6px;width:2.5px;height:19px;background:var(--red);border-radius:1px;transform:translateX(-50%);transition:left .18s;z-index:3;box-shadow:0 0 0 1.5px rgba(255,255,255,.85)}
+.ml{position:relative;height:14px;margin-top:3px}.mk{position:absolute;top:0;font-family:'Cabin';font-size:10px;font-weight:700;transform:translateX(-50%);white-space:nowrap;transition:left .18s;padding:1px 4px;border-radius:3px}
+.mf{color:#4A4A3A;background:#EDE9DA}.my{color:var(--red-dk);background:var(--red-lt)}
+.ar{position:relative;height:12px;margin-top:1px}.al{position:absolute;top:0;font-size:10px;color:var(--txt3);transform:translateX(-50%);white-space:nowrap;font-weight:600;font-feature-settings:"tnum" 1}
+#ba{flex:1;min-height:0;display:flex;flex-direction:column}
+.bsh{font-family:'Cabin';font-size:11px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:6px;margin-top:10px;margin-bottom:5px;padding-top:8px;border-top:1px solid var(--bdr2)}
+.bsh:first-of-type{margin-top:2px;padding-top:0;border-top:none}
+.bc{margin-left:auto;font-family:'Montserrat';font-size:10.5px;color:var(--txt3);font-weight:600;letter-spacing:.01em;text-transform:none;font-feature-settings:"tnum" 1}
+.br{display:flex;align-items:center;gap:8px;margin-bottom:3px}
+.bl{font-size:11px;color:var(--txt2);font-weight:500;width:185px;flex-shrink:0;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.3}
+.bl a{color:inherit;text-decoration:none;border-bottom:1px dotted transparent;transition:all .15s}.bl a:hover{color:var(--blue);border-bottom-color:var(--blue)}
+.bl.e{color:var(--txt);font-weight:600}.bl.e a{color:var(--blue-dk)}
+.bt{flex:1;height:14px;position:relative;background:#EFECE3;border-radius:3px;border:1px solid var(--bdr2);overflow:visible}
+.bf{position:absolute;top:0;left:0;height:100%;border-radius:2.5px;transition:background .18s}
+.bfc{background:var(--coral)}.bfr{background:var(--blue)}.bff{background:var(--green)}.bfo{background:#D0CCC0}
+.by{position:absolute;top:-2px;width:2px;height:18px;background:var(--red);border-radius:1px;transform:translateX(-50%);z-index:2;transition:left .18s;box-shadow:0 0 0 1px rgba(255,255,255,.7)}
+.bcp{position:absolute;top:50%;font-family:'Cabin';font-size:9.5px;font-weight:700;transform:translateY(-50%);white-space:nowrap;padding-left:4px;font-feature-settings:"tnum" 1}
+.bfg{position:absolute;top:50%;left:6px;transform:translateY(-50%);font-family:'Cabin';font-size:8.5px;font-weight:700;color:#fff;letter-spacing:.02em;text-shadow:0 0 3px rgba(0,0,0,.3);white-space:nowrap;pointer-events:none}
+.tr{margin-top:8px;padding-left:193px;border-top:1px solid var(--bdr2);padding-top:4px}
+.tl{display:flex;justify-content:space-between;font-size:10px;color:var(--txt3);font-weight:600;font-feature-settings:"tnum" 1}
+.gl{margin-top:8px;padding-top:6px;border-top:1px solid var(--bdr2);font-size:10.24px;color:var(--txt3);line-height:1.4;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-weight:500}
+.gd{display:flex;gap:14px;flex-wrap:wrap}.gd strong{font-family:'Cabin';color:var(--txt2);font-weight:700}.gs{font-style:italic}
 </style>
-
-<div class="pbi-shell">
-  <div class="pbi-topbar">
-    <div class="pbi-logo"><i class="ti ti-chart-bar" aria-hidden="true"></i> Power BI</div>
-    <span class="pbi-breadcrumb">Housing Continuum Tool · Fairfax County HCD</span>
-    <div class="pbi-tabs"><div class="pbi-tab on">Eligibility</div><div class="pbi-tab">About</div></div>
-  </div>
-
-  <div class="pbi-canvas">
-    <div class="pbi-lp">
-      <div class="pbi-steps">
-        <div class="pbi-step"><div class="step-num">1</div><div class="step-txt">Select your <strong>household size</strong></div></div>
-        <div class="pbi-step"><div class="step-num">2</div><div class="step-txt">Set your <strong>annual income</strong> before taxes</div></div>
-        <div class="pbi-step"><div class="step-num">3</div><div class="step-txt"><strong>Click any program link</strong> to learn more</div></div>
-      </div>
-      <div class="pbi-card">
-        <div class="pbi-card-title">Household size <span class="pbi-card-hint">What-If</span></div>
-        <div class="hh-btns" id="hhBtns">
-          <div class="hh-btn" data-sz="1"><span class="hh-num">1</span>person</div>
-          <div class="hh-btn" data-sz="2"><span class="hh-num">2</span>persons</div>
-          <div class="hh-btn on" data-sz="3"><span class="hh-num">3</span>persons</div>
-          <div class="hh-btn" data-sz="4"><span class="hh-num">4</span>persons</div>
-        </div>
-      </div>
-      <div class="pbi-card">
-        <div class="pbi-card-title">Annual household income <span class="pbi-card-hint">What-If</span></div>
-        <div class="pbi-income-val" id="incVal">$99,000</div>
-        <div class="pbi-badge badge-blue" id="amiBadge">60% AMI</div>
-        <div style="position:relative">
-          <div class="pbi-slider-track">
-            <div class="pbi-slider-fill" id="sliderFill" style="width:23.6%"></div>
-            <div class="pbi-slider-thumb" id="sliderThumb" style="left:23.6%"></div>
-          </div>
-          <input type="range" id="incSlider" min="0" max="420000" step="1000" value="99000" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;margin:0">
-        </div>
-        <div class="pbi-ticks"><span>$0</span><span>$100k</span><span>$200k</span><span>$300k</span><span>$400k</span></div>
-        <div class="fpl-strip" id="fplStrip"><i class="ti ti-alert-triangle" style="font-size:10px" aria-hidden="true"></i><span id="fplText"></span></div>
-      </div>
-      <div class="pbi-card" style="flex:1;display:flex;flex-direction:column">
-        <div class="pbi-card-title">Try a county household <span class="pbi-card-hint">Slicer</span></div>
-        <div class="job-slicer" id="jobSlicer">
-          <div class="job-row" data-hh="1" data-inc="66119"><div class="job-name">Human Development Specialist I</div><div class="job-sub">1 earner · HH1 · $66,119</div></div>
-          <div class="job-row" data-hh="1" data-inc="72440"><div class="job-name">Admin Assistant V</div><div class="job-sub">1 earner · HH1 · $72,440</div></div>
-          <div class="job-row" data-hh="2" data-inc="91700"><div class="job-name">Business Analyst I</div><div class="job-sub">1 earner · HH2 · $91,700</div></div>
-          <div class="job-row" data-hh="2" data-inc="105590"><div class="job-name">Engineer III</div><div class="job-sub">1 earner · HH2 · $105,590</div></div>
-          <div class="job-row" data-hh="4" data-inc="138560"><div class="job-name">Admin Asst + Human Dev Spec</div><div class="job-sub">2 earners · HH4 · $138,560</div></div>
-        </div>
-        <div class="job-note">Salaries from active Fairfax County listings, May 2026. Midpoint of the posted salary range; income combined for multi-earner households.</div>
-      </div>
-    </div>
-
-    <div class="pbi-rp">
-      <div style="display:flex;align-items:baseline;gap:8px">
-        <div>
-          <div class="rp-top">Program eligibility · 2026</div>
-          <div class="rp-sub">HUD FY2026 · MFI $166,100 · Washington-Arlington-Alexandria MSA</div>
-        </div>
-        <div class="visual-badge">Deneb · Vega-Lite</div>
-      </div>
-
-      <div class="pbi-legend">
-        <div class="legend-item"><div class="legend-sw" style="background:#4FA999"></div>Housing Crisis</div>
-        <div class="legend-item"><div class="legend-sw" style="background:#0078d4"></div>Rental</div>
-        <div class="legend-item"><div class="legend-sw" style="background:#EFB255"></div>For-Sale</div>
-        <div class="legend-item"><div class="legend-sw" style="background:#d5d5d5"></div>Not eligible</div>
-        <div class="legend-item"><div class="legend-sw" style="background:#E24B4A;width:2px;border-radius:1px"></div>Your income</div>
-        <div class="legend-item"><div class="legend-sw" style="background:#888;width:1.5px;border-radius:1px"></div>FPL</div>
-      </div>
-
-      <div class="chart-link-wrap">
-        <div class="pbi-axis">
-          <div class="pbi-axis-bar">
-            <div class="pbi-fpl-line" id="fplLine" style="left:6%"></div>
-            <div class="pbi-you-line" id="youLine" style="left:23.6%"></div>
-          </div>
-          <div class="pbi-markers">
-            <div class="pbi-marker m-fpl" id="fplLbl" style="left:6%">FPL</div>
-            <div class="pbi-marker m-you" id="youLbl" style="left:23.6%">You</div>
-          </div>
-          <div class="pbi-ami-row">
-            <div class="pbi-ami-label" style="left:15.8%">40%</div>
-            <div class="pbi-ami-label" style="left:23.7%">60%</div>
-            <div class="pbi-ami-label" style="left:31.6%">80%</div>
-            <div class="pbi-ami-label" style="left:39.5%">100%</div>
-            <div class="pbi-ami-label" style="left:47.5%">120%</div>
-            <div class="pbi-ami-label" style="left:79.1%">200%</div>
-          </div>
-        </div>
-
-        <div class="chart-link-body">
-          <div class="band-area" id="bandArea"></div>
-          <div class="link-col" id="linkCol">
-            <div class="link-col-head"><i class="ti ti-external-link" style="font-size:9px;margin-right:2px" aria-hidden="true"></i>Info</div>
-          </div>
-        </div>
-
-        <div class="pbi-tick-row">
-          <div class="pbi-tick-labels"><span>$0</span><span>$50k</span><span>$100k</span><span>$150k</span><span>$200k</span><span>$250k</span><span>$300k</span><span>$400k</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="pbi-footer"><i class="ti ti-filter" aria-hidden="true"></i> Filters pane · Share · Export to PDF</div>
+</head>
+<body>
+<div class="hdr"><div class="hdr-l"><div class="ttl">Fairfax County Housing Continuum</div><div class="sub">Income eligibility by program</div></div><div class="meta">HUD FY2026 · MFI $166,100</div></div>
+<div class="steps"><div class="step"><div class="sn">1</div><div class="st">Select your <strong>household size</strong></div></div><div class="step"><div class="sn">2</div><div class="st">Set your <strong>annual income</strong> (before taxes)</div></div><div class="step"><div class="sn">3</div><div class="st">See <strong>programs you may qualify for</strong> — click any name to learn more</div></div></div>
+<div class="wrap">
+<div class="lp">
+<div><div class="sl">Household size</div><div class="hg" id="hg"><button class="hb" data-sz="1"><span class="hn">1</span>person</button><button class="hb" data-sz="2"><span class="hn">2</span>persons</button><button class="hb" data-sz="3"><span class="hn">3</span>persons</button><button class="hb on" data-sz="4"><span class="hn">4</span>persons</button></div></div>
+<div><div class="sl">Annual household income</div><div class="iv n" id="iv">$60,000</div><div id="badge" class="ab ab-b">Below 30% AMI</div><div class="sw"><input type="range" id="sl" min="0" max="420000" step="500" value="60000"><div class="stk" id="stk"></div></div><div class="fp" id="fp"><span style="font-size:14px;flex-shrink:0">⚠</span><span id="fpt"></span></div></div>
+<div class="jb"><div class="jl">Try a county household <span class="jh">— sets size &amp; income</span></div><div class="jc" id="jc"></div><div class="jn">Midpoint of posted FY2026 salary ranges. Combined for multi-earner households.</div></div>
 </div>
-
+<div class="rp">
+<div class="lg"><div class="li"><div class="ls" style="background:var(--coral)"></div>Housing Crisis</div><div class="li"><div class="ls" style="background:var(--blue)"></div>Rental</div><div class="li"><div class="ls" style="background:var(--green)"></div>For-Sale</div><div class="li"><div class="ls" style="background:#D0CCC0"></div>Not eligible</div><div class="li"><div class="ls" style="background:var(--red);width:3px;border-radius:1px"></div>Your income</div><div class="li"><div class="ls" style="background:#6B6B60;width:2px;border-radius:1px"></div>FPL</div></div>
+<div class="ac"><div class="ab2"><div class="fl" id="fll"></div><div class="yl" id="yll"></div></div><div class="ml"><div class="mk mf" id="flbl">FPL</div><div class="mk my" id="ylbl">You</div></div><div class="ar" id="alr"></div></div>
+<div id="ba"></div>
+<div class="tr"><div class="tl" id="tll"></div></div>
+<div class="gl"><div class="gd"><span><strong>AMI</strong> Area Median Income</span><span><strong>FPL</strong> Federal Poverty Level</span><span><strong>HUD</strong> US Dept of Housing &amp; Urban Development</span></div><div class="gs">HUD FY2026 · HHS 2025 · Washington-Arlington-Alexandria MSA</div></div>
+</div></div>
 <script>
-const LIM_VIS={0:[0,0,0,0],30:[34890,39870,44850,49830],40:[46500,53150,59800,66450],50:[58150,66450,74750,83050],60:[69780,79740,89700,99660],70:[81410,93030,104650,116270],80:[93040,106320,119600,132880],90:[104670,119610,134550,149490],100:[116300,132900,149500,166100],120:[139560,159480,179400,199320],150:[174450,199350,224250,249150],200:[232600,265800,299000,332200],250:[290750,332250,373750,415250]};
-const FPL={1:15650,2:21150,3:26650,4:32150};
-const SLIDER_MAX=420000;
-const COLORS={crisis:'#4FA999',rental:'#0078d4',forsale:'#EFB255'};
-const CAP_ON={crisis:'#0F5A4F',rental:'#0c447c',forsale:'#7a3e00'};
-
-// hi: AMI cap. 999 = market-rate uncapped. statusBased=true: no income limit, housing-status driven
-const PROGRAMS=[
-  // HOUSING CRISIS
-  {cat:'crisis',name:'Emergency Shelters',hi:999,statusBased:true,url:'https://www.fairfaxcounty.gov/homeless/emergency-shelters'},
-  {cat:'crisis',name:'Homelessness Prevention',hi:30,url:'https://www.fairfaxcounty.gov/homeless/prevention'},
-  {cat:'crisis',name:'Permanent Supportive Housing',hi:999,statusBased:true,url:'https://www.fairfaxcounty.gov/homeless/'},
-  {cat:'crisis',name:'Rapid Rehousing',hi:999,statusBased:true,url:'https://www.fairfaxcounty.gov/homeless/'},
-  {cat:'crisis',name:'Emergency Rental Assistance Bridge',hi:80,url:'https://www.fairfaxcounty.gov/housing/'},
-  // RENTAL
-  {cat:'rental',name:'HCV / Project-Based RA',hi:70,url:'https://www.fairfaxcounty.gov/housing/rentalhousing/housingchoicevoucher'},
-  {cat:'rental',name:'FCRHA Portfolio (FCRP)',hi:80,url:'https://www.fairfaxcounty.gov/housing/rentalhousing/fairfax-county-rental-program'},
-  {cat:'rental',name:'Privately Owned / LIHTC',hi:80,url:'https://www.fairfaxcounty.gov/housing/rentalhousing/privately-owned'},
-  {cat:'rental',name:'ADU Rental Program',hi:70,url:'https://www.fairfaxcounty.gov/housing/rentalhousing/privately-owned'},
-  {cat:'rental',name:'WDU Rental Program',hi:120,url:'https://www.fairfaxcounty.gov/housing/rentalhousing/privately-owned'},
-  {cat:'rental',name:'Market Rental Apartments',hi:999,url:'https://www.fairfaxcounty.gov/housing/find-housing'},
-  // FOR-SALE
-  {cat:'forsale',name:'CDBG Downpayment Assistance',hi:80,url:'https://www.fairfaxcounty.gov/housing/cdbg'},
-  {cat:'forsale',name:'ADU / WDU For-Sale',hi:120,url:'https://www.fairfaxcounty.gov/housing/homeownership/homesforsale'},
-  {cat:'forsale',name:'VA / RHA Mortgages',hi:999,url:'https://www.benefits.va.gov/homeloans/'},
-  {cat:'forsale',name:'Conventional Mortgages',hi:999,url:'https://www.fanniemae.com/homebuyers'},
-  {cat:'forsale',name:'Market For-Sale Housing',hi:999,url:'https://www.fairfaxcounty.gov/housing/find-housing'},
-  {cat:'forsale',name:'Mortgage Interest Deduction',hi:999,url:'https://www.irs.gov/taxtopics/tc505'},
+const V={0:[0,0,0,0],30:[34890,39870,44850,49830],40:[46500,53150,59800,66450],50:[58150,66450,74750,83050],60:[69780,79740,89700,99660],70:[81410,93030,104650,116270],80:[93040,106320,119600,132880],90:[104670,119610,134550,149490],100:[116300,132900,149500,166100],120:[139560,159480,179400,199320],150:[174450,199350,224250,249150],200:[232600,265800,299000,332200],250:[290750,332250,373750,415250]};
+const F={1:15650,2:21150,3:26650,4:32150},M=420000,T=[40,60,80,100,120,200,250];
+const P=[
+{n:"Emergency Shelters",c:"crisis",t:"c",h:999,s:1,u:"https://www.fairfaxcounty.gov/homeless/emergency-shelters"},
+{n:"Homelessness Prevention",c:"crisis",t:"c",h:30,u:"https://www.fairfaxcounty.gov/homeless/prevention"},
+{n:"Permanent Supportive Housing",c:"crisis",t:"c",h:999,s:1,u:"https://www.fairfaxcounty.gov/homeless/"},
+{n:"Rapid Rehousing",c:"crisis",t:"c",h:999,s:1,u:"https://www.fairfaxcounty.gov/homeless/"},
+{n:"Emergency Rental Assistance Bridge",c:"crisis",t:"c",h:80,u:"https://www.fairfaxcounty.gov/housing/"},
+{n:"Housing Choice Voucher / Project-Based RA",c:"rental",t:"r",h:70,u:"https://www.fairfaxcounty.gov/housing/rentalhousing/housingchoicevoucher"},
+{n:"FCRHA Portfolio (FCRP)",c:"rental",t:"r",h:80,u:"https://www.fairfaxcounty.gov/housing/rentalhousing/fairfax-county-rental-program"},
+{n:"Privately Owned / Tax Credits",c:"rental",t:"r",h:80,u:"https://www.fairfaxcounty.gov/housing/rentalhousing/privately-owned"},
+{n:"ADU Rental Program",c:"rental",t:"r",h:70,u:"https://www.fairfaxcounty.gov/housing/rentalhousing/privately-owned"},
+{n:"WDU Rental Program",c:"rental",t:"r",h:120,u:"https://www.fairfaxcounty.gov/housing/rentalhousing/privately-owned"},
+{n:"Market Rental Apartments",c:"rental",t:"r",h:999,nl:1,u:""},
+{n:"Down Payment Assistance",c:"forsale",t:"f",h:80,u:"https://www.fairfaxcounty.gov/housing/cdbg"},
+{n:"Down Payment Loan Program",c:"forsale",t:"f",h:80,u:"https://www.fairfaxcounty.gov/housing/homeownership/downpaymentloan"},
+{n:"ADU / WDU For-Sale Program",c:"forsale",t:"f",h:120,u:"https://www.fairfaxcounty.gov/housing/homeownership/homesforsale"},
+{n:"VA / RHA Mortgages",c:"forsale",t:"f",h:999,u:"https://www.benefits.va.gov/homeloans/"},
+{n:"Conventional Mortgages",c:"forsale",t:"f",h:999,u:"https://www.fanniemae.com/homebuyers"},
+{n:"Market For-Sale Housing",c:"forsale",t:"f",h:999,nl:1,u:""},
+{n:"Mortgage Interest Tax Deduction",c:"forsale",t:"f",h:999,u:"https://www.irs.gov/taxtopics/tc505"},
 ];
-let sz=3,income=99000;
-function toPct(v){return Math.min(v/SLIDER_MAX,1)*100;}
-function fmt(n){return '$'+Math.round(n).toLocaleString();}
-function getVis(ami,s){const idx=s-1,keys=Object.keys(LIM_VIS).map(Number).sort((a,b)=>a-b);let b=0;for(const k of keys){if(k<=ami)b=k;}return LIM_VIS[b]?LIM_VIS[b][idx]:0;}
-function getAMI(inc,s){const idx=s-1,keys=Object.keys(LIM_VIS).map(Number).sort((a,b)=>a-b);let r=0;for(const k of keys){if(inc>=LIM_VIS[k][idx])r=k;}return r;}
-// status-based programs are always "eligible" on income grounds (full bar)
-function isEligible(p,inc,s){if(p.statusBased||p.hi>=999)return true;return inc<getVis(p.hi,s);}
-
-const SECTIONS=[
-  {key:'crisis',label:'Housing Crisis',dot:'#4FA999'},
-  {key:'rental',label:'Rental Programs',dot:'#0078d4'},
-  {key:'forsale',label:'For-Sale Programs',dot:'#EFB255'},
+const J=[
+{l:"Human Dev Specialist I",b:"1 earner · HH1 · $66,119",z:1,i:66119},
+{l:"Admin Assistant V",b:"1 earner · HH1 · $72,440",z:1,i:72440},
+{l:"Business Analyst I",b:"1 earner · HH2 · $91,700",z:2,i:91700},
+{l:"Engineer III",b:"1 earner · HH2 · $105,590",z:2,i:105590},
+{l:"Admin Asst + Human Dev Spec",b:"2 earners · HH4 · $138,560",z:4,i:138560},
 ];
-
-function buildStatic(){
-  const bandArea=document.getElementById('bandArea');
-  const linkCol=document.getElementById('linkCol');
-  let bh='', lh='<div class="link-col-head"><i class="ti ti-external-link" style="font-size:9px;margin-right:2px" aria-hidden="true"></i>Info</div>';
-  let idx=0, firstSection=true;
-  SECTIONS.forEach(sec=>{
-    bh+=`<div class="section-head"><div class="section-dot" style="background:${sec.dot}"></div>${sec.label}<span class="section-count" id="count-${sec.key}"></span></div>`;
-    lh+=`<div class="link-section-spacer${firstSection?' first':''}"></div>`;
-    firstSection=false;
-    PROGRAMS.forEach((p,i)=>{
-      if(p.cat!==sec.key)return;
-      bh+=`<div class="band-row">
-        <div class="band-lbl" id="lbl-${i}">${p.name}</div>
-        <div class="band-track">
-          <div class="band-fill" id="bar-${i}"></div>
-          <div class="band-statusflag" id="flag-${i}"></div>
-          <div class="band-you" id="you-${i}"></div>
-          <div class="band-cap" id="cap-${i}"></div>
-        </div>
-      </div>`;
-      lh+=`<div class="link-row" id="link-${i}"><a class="prog-link" href="${p.url}" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i>Learn more</a></div>`;
-    });
-  });
-  bandArea.innerHTML=bh;
-  linkCol.innerHTML=lh;
+const S=[{k:"crisis",l:"Housing Crisis",d:"#F69325"},{k:"rental",l:"Rental Programs",d:"#004AAC"},{k:"forsale",l:"For-Sale Programs",d:"#57AC19"}];
+const CL={c:"bfc",r:"bfr",f:"bff"},CO={c:"#7A4400",r:"#002760",f:"#2B5A06"};
+let sz=4,inc=60000,aj=null;
+function pct(v){return Math.min(v/M,1)*100}
+function fm(n){return '$'+Math.round(n).toLocaleString()}
+function gv(a,s){let b=0;for(const k of Object.keys(V).map(Number).sort((a,b)=>a-b))if(k<=a)b=k;return V[b]?V[b][s-1]:0}
+function ga(i,s){let r=0;for(const k of Object.keys(V).map(Number).sort((a,b)=>a-b))if(i>=V[k][s-1])r=k;return r}
+function el(p,i,s){return p.s||p.h>=999||i<gv(p.h,s)}
+function bt(){
+const st=document.getElementById('stk'),ar=document.getElementById('alr'),tl=document.getElementById('tll');
+st.innerHTML='';ar.innerHTML='';tl.innerHTML='';
+[0,50000,100000,150000,200000,300000,400000].forEach(v=>{
+const l=pct(v);const m=document.createElement('div');m.className='stm';m.style.left=l+'%';st.appendChild(m);
+const t=document.createElement('div');t.className='stv';t.style.left=l+'%';t.textContent=v===0?'$0':'$'+(v/1000)+'k';st.appendChild(t);
+const d=document.createElement('span');d.textContent=v===0?'$0':'$'+(v/1000)+'k';tl.appendChild(d);
+});
+T.forEach(a=>{const i=V[a]?V[a][sz-1]:null;if(!i)return;const d=document.createElement('div');d.className='al';d.style.left=pct(i)+'%';d.textContent=a+'%';ar.appendChild(d)});
 }
-
+function bj(){document.getElementById('jc').innerHTML=J.map((j,i)=>`<div class="jk" data-j="${i}"><div class="jkl">${j.l}</div><div class="jks">${j.b}</div></div>`).join('')}
 function render(){
-  const amiPct=getAMI(income,sz),fplInc=FPL[sz],isBelowFPL=income<fplInc,incPct=toPct(income),fplPct=toPct(fplInc);
-  document.getElementById('sliderFill').style.width=incPct+'%';
-  document.getElementById('sliderThumb').style.left=incPct+'%';
-  document.getElementById('incVal').textContent=fmt(income);
-  const badge=document.getElementById('amiBadge');
-  badge.textContent=amiPct===0?'Below 30% AMI':amiPct+'% AMI';
-  badge.className='pbi-badge '+(amiPct>=120?'badge-green':amiPct>=80?'badge-amber':'badge-blue');
-  const strip=document.getElementById('fplStrip');
-  strip.className='fpl-strip show '+(isBelowFPL?'fpl-below':'fpl-above');
-  document.getElementById('fplText').textContent=isBelowFPL?`Below federal poverty level (${fmt(fplInc)} for ${sz}-person household)`:`Above federal poverty level (${fmt(fplInc)} for ${sz}-person household)`;
-  document.getElementById('youLine').style.left=incPct+'%';
-  document.getElementById('youLbl').style.left=incPct+'%';
-  document.getElementById('fplLine').style.left=fplPct+'%';
-  document.getElementById('fplLbl').style.left=fplPct+'%';
-
-  const counts={crisis:0,rental:0,forsale:0},totals={crisis:0,rental:0,forsale:0};
-  PROGRAMS.forEach((p,i)=>{
-    totals[p.cat]++;
-    const elig=isEligible(p,income,sz);
-    if(elig)counts[p.cat]++;
-    // bar width
-    const right=(p.statusBased||p.hi>=999)?100:toPct(getVis(p.hi,sz));
-    const bar=document.getElementById('bar-'+i);
-    bar.style.width=right+'%';
-    bar.style.background=elig?COLORS[p.cat]:'#d5d5d5';
-    // label
-    document.getElementById('lbl-'+i).className='band-lbl'+(elig?' eligible':'');
-    // your income line
-    document.getElementById('you-'+i).style.left=incPct+'%';
-    // status flag (only for statusBased programs)
-    const flag=document.getElementById('flag-'+i);
-    if(p.statusBased){flag.textContent='Housing status–based';}else{flag.textContent='';}
-    // cap label — only capped programs (not statusBased, not market)
-    const cap=document.getElementById('cap-'+i);
-    if(!p.statusBased&&p.hi<999){
-      cap.textContent=p.hi+'% AMI';
-      cap.style.left='calc('+right+'% + 2px)';
-      cap.style.color=elig?CAP_ON[p.cat]:'#c0c0c0';
-    }else{cap.textContent='';}
-    // link dim
-    const a=document.querySelector('#link-'+i+' a');
-    if(a)a.className='prog-link'+(elig?'':' dim');
-  });
-  SECTIONS.forEach(sec=>{
-    document.getElementById('count-'+sec.key).textContent=counts[sec.key]+' of '+totals[sec.key]+' eligible';
-  });
+const ap=ga(inc,sz),fi=F[sz],bf=inc<fi,mk=ap>=120,ip=pct(inc),fp=pct(fi);
+document.getElementById('iv').textContent=fm(inc);
+const b=document.getElementById('badge');b.textContent=ap===0?'Below 30% AMI':ap+'% AMI';
+b.className='ab '+(bf?'ab-r':mk?'ab-g':ap>=80?'ab-c':'ab-b');
+const s=document.getElementById('fp');
+if(bf){s.className='fp show bel';document.getElementById('fpt').textContent=`Below federal poverty level (${fm(fi)} for ${sz}-person household)`}else{s.className='fp'}
+document.getElementById('yll').style.left=ip+'%';document.getElementById('ylbl').style.left=ip+'%';
+document.getElementById('fll').style.left=fp+'%';document.getElementById('flbl').style.left=fp+'%';
+let h='';
+S.forEach(se=>{
+const ps=P.filter(p=>p.c===se.k),eg=ps.filter(p=>el(p,inc,sz)).length;
+h+=`<div class="bsh"><div style="background:${se.d};width:7px;height:7px;border-radius:50%;flex-shrink:0"></div>${se.l}<span class="bc">${eg} of ${ps.length} eligible</span></div>`;
+ps.forEach(p=>{
+const e=el(p,inc,sz),r=(p.s||p.h>=999)?100:pct(gv(p.h,sz)),f=e?CL[p.t]:'bfo',sc=!p.s&&p.h<999,cc=e?CO[p.t]:'#A09A88',lc='bl'+(e?' e':''),li=p.nl?p.n:`<a href="${p.u}" target="_blank" rel="noopener">${p.n}</a>`;
+h+=`<div class="br"><div class="${lc}">${li}</div><div class="bt"><div class="bf ${f}" style="width:${r}%"></div>${p.s?'<div class="bfg">Housing status\u2013based</div>':''}${sc?`<div class="bcp" style="left:${r}%;color:${cc}">${p.h}% AMI</div>`:''}<div class="by" style="left:${ip}%"></div></div></div>`;
+})});
+document.getElementById('ba').innerHTML=h;
 }
-
-document.getElementById('hhBtns').addEventListener('click',e=>{
-  const btn=e.target.closest('[data-sz]');if(!btn)return;
-  sz=+btn.dataset.sz;
-  document.querySelectorAll('.hh-btn').forEach(b=>b.classList.toggle('on',b===btn));
-  document.querySelectorAll('.job-row').forEach(r=>r.classList.remove('on'));
-  render();
-});
-document.getElementById('incSlider').addEventListener('input',function(){
-  income=+this.value;
-  document.querySelectorAll('.job-row').forEach(r=>r.classList.remove('on'));
-  render();
-});
-document.getElementById('jobSlicer').addEventListener('click',e=>{
-  const row=e.target.closest('.job-row');if(!row)return;
-  sz=+row.dataset.hh;income=+row.dataset.inc;
-  document.querySelectorAll('.hh-btn').forEach(b=>b.classList.toggle('on',+b.dataset.sz===sz));
-  document.getElementById('incSlider').value=income;
-  document.querySelectorAll('.job-row').forEach(r=>r.classList.toggle('on',r===row));
-  render();
-});
-
-buildStatic();
-render();
+function cj(){aj=null;document.querySelectorAll('.jk').forEach(c=>c.classList.remove('on'))}
+bt();bj();render();
+document.getElementById('sl').addEventListener('input',function(){inc=+this.value;cj();render()});
+document.getElementById('hg').addEventListener('click',function(e){const b=e.target.closest('[data-sz]');if(!b)return;sz=+b.dataset.sz;document.querySelectorAll('.hb').forEach(x=>x.classList.toggle('on',x===b));inc=V[60][sz-1];document.getElementById('sl').value=inc;cj();bt();render()});
+document.getElementById('jc').addEventListener('click',function(e){const c=e.target.closest('[data-j]');if(!c)return;const j=J[+c.dataset.j];aj=+c.dataset.j;sz=j.z;inc=j.i;document.querySelectorAll('.hb').forEach(x=>x.classList.toggle('on',+x.dataset.sz===sz));document.getElementById('sl').value=inc;document.querySelectorAll('.jk').forEach(x=>x.classList.toggle('on',+x.dataset.j===aj));bt();render()});
 </script>
+</body>
+</html>
