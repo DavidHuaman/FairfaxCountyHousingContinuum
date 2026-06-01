@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Housing Options & Program Eligibility | Fairfax County</title>
+<title>HOPE — Housing Options & Program Eligibility | Fairfax County</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -78,7 +78,7 @@ input[type=range]{width:100%;cursor:pointer;accent-color:var(--blue);height:3px}
 .al{position:absolute;top:0;font-size:8.5px;color:var(--txt3);transform:translateX(-50%);white-space:nowrap;font-weight:600;font-feature-settings:"tnum" 1}
 
 /* Band rows — TIGHT */
-#ba{flex:1;min-height:0;display:flex;flex-direction:column}
+#ba{display:flex;flex-direction:column}
 .bsh{font-family:'Cabin';font-size:9.5px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.07em;display:flex;align-items:center;gap:5px;margin:6px 0 2px;padding-top:5px;border-top:1px solid var(--bdr2)}
 .bsh:first-of-type{margin-top:0;padding-top:0;border-top:none}
 .bc{margin-left:auto;font-family:'Montserrat';font-size:9px;color:var(--txt3);font-weight:600;text-transform:none;font-feature-settings:"tnum" 1}
@@ -101,9 +101,25 @@ input[type=range]{width:100%;cursor:pointer;accent-color:var(--blue);height:3px}
 /* Glossary — single line */
 .gl{margin-top:4px;padding-top:3px;border-top:1px solid var(--bdr2);font-size:9px;color:var(--txt3);line-height:1.3;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-weight:500}
 .gd{display:flex;gap:10px;flex-wrap:wrap}.gd strong{font-family:'Cabin';color:var(--txt2);font-weight:700}.gs{font-style:italic}
+
+/* ── TOOLTIP ──────────────────────────────────────────── */
+#tip{
+  position:fixed;z-index:9999;pointer-events:none;
+  background:#2D2D2D;color:#F0EFED;
+  font-family:'Montserrat',sans-serif;font-size:11px;font-weight:500;
+  line-height:1.55;max-width:250px;
+  padding:10px 13px;border-radius:7px;
+  box-shadow:0 4px 20px rgba(0,0,0,.18);
+  opacity:0;transition:opacity .12s;
+  border-left:3px solid #A8C5E8;
+}
+#tip.show{opacity:1}
+#tip-name{font-family:'Cabin';font-size:11.5px;font-weight:700;color:#A8C5E8;margin-bottom:5px}
+
 </style>
 </head>
 <body>
+<div id="tip"><div id="tip-name"></div><div id="tip-body"></div></div>
 <div class="hdr"><div class="hdr-l"><div class="ttl">Housing Options &amp; Program Eligibility</div></div><div class="meta">Fairfax County HCD · HUD FY2026</div></div>
 <div class="steps"><div class="step"><div class="sn">1</div><div class="st">Select your <strong>household size</strong></div></div><div class="step"><div class="sn">2</div><div class="st">Set your <strong>annual income</strong> (before taxes)</div></div><div class="step"><div class="sn">3</div><div class="st">See <strong>programs you may qualify for</strong> — click to learn more</div></div></div>
 <div class="wrap">
@@ -123,26 +139,46 @@ input[type=range]{width:100%;cursor:pointer;accent-color:var(--blue);height:3px}
 const V={0:[0,0,0,0],30:[34890,39870,44850,49830],40:[46500,53150,59800,66450],50:[58150,66450,74750,83050],60:[69780,79740,89700,99660],70:[81410,93030,104650,116270],80:[93040,106320,119600,132880],90:[104670,119610,134550,149490],100:[116300,132900,149500,166100],120:[139560,159480,179400,199320],150:[174450,199350,224250,249150],200:[232600,265800,299000,332200],250:[290750,332250,373750,415250]};
 const F={1:15650,2:21150,3:26650,4:32150},M=420000,T=[40,60,80,100,120,200,250];
 const P=[
-{n:"Emergency Shelters",c:"crisis",t:"c",h:999,s:1,u:"https://www.fairfaxcounty.gov/homeless/emergency-shelters"},
-{n:"Homelessness Prevention",c:"crisis",t:"c",h:30,u:"https://www.fairfaxcounty.gov/homeless/prevention"},
-{n:"Permanent Supportive Housing",c:"crisis",t:"c",h:999,s:1,u:"https://www.fairfaxcounty.gov/homeless/"},
-{n:"Rapid Rehousing",c:"crisis",t:"c",h:999,s:1,u:"https://www.fairfaxcounty.gov/homeless/"},
-{n:"Emergency Rental Assistance Bridge",c:"crisis",t:"c",h:80,u:"https://www.fairfaxcounty.gov/housing/"},
-{n:"Housing Choice Voucher / Project-Based RA",c:"rental",t:"r",h:70,u:"https://www.fairfaxcounty.gov/housing/rentalhousing/housingchoicevoucher"},
-{n:"FCRHA Portfolio (FCRP)",c:"rental",t:"r",h:80,u:"https://www.fairfaxcounty.gov/housing/rentalhousing/fairfax-county-rental-program"},
-{n:"Privately Owned / Tax Credits",c:"rental",t:"r",h:80,u:"https://www.fairfaxcounty.gov/housing/rentalhousing/privately-owned"},
-{n:"ADU Rental Program",c:"rental",t:"r",h:70,u:"https://www.fairfaxcounty.gov/housing/rentalhousing/privately-owned"},
-{n:"WDU Rental Program",c:"rental",t:"r",h:120,u:"https://www.fairfaxcounty.gov/housing/rentalhousing/privately-owned"},
-{n:"Market Rate Rental Apartments",c:"rental",t:"r",h:999,nl:1,u:""},
-{n:"Down Payment Assistance",c:"forsale",t:"f",h:80,u:"https://www.fairfaxcounty.gov/housing/cdbg"},
-{n:"Down Payment Loan Program",c:"forsale",t:"f",h:80,u:"https://www.fairfaxcounty.gov/housing/homeownership/downpaymentloan"},
-{n:"ADU / WDU For-Sale Program",c:"forsale",t:"f",h:120,u:"https://www.fairfaxcounty.gov/housing/homeownership/homesforsale"},
-{n:"VA / FHA Mortgages",c:"forsale",t:"f",h:999,u:"https://www.benefits.va.gov/homeloans/"},
-{n:"Conventional Mortgages",c:"forsale",t:"f",h:999,nl:1,u:""},
-{n:"Market Rate For-Sale Housing",c:"forsale",t:"f",h:999,nl:1,u:""},
-{n:"Mortgage Interest Tax Deduction",c:"forsale",t:"f",h:999,u:"https://www.irs.gov/taxtopics/tc505"},
+{n:"Emergency Shelters",c:"crisis",t:"c",h:999,s:1,u:"https://www.fairfaxcounty.gov/homeless/emergency-shelters",
+ tip:"Provides immediate shelter for individuals and families experiencing homelessness, including survivors of domestic violence. No income limit. Eligibility is based on housing status."},
+{n:"Homelessness Prevention",c:"crisis",t:"c",h:30,u:"https://www.fairfaxcounty.gov/homeless/prevention",
+ tip:"Short-term financial assistance to help households at risk of losing their housing. Serves households at or below 30% AMI. May cover rent arrears, utility costs, or other housing-related expenses."},
+{n:"Permanent Supportive Housing",c:"crisis",t:"c",h:999,s:1,u:"https://www.fairfaxcounty.gov/homeless/",
+ tip:"Long-term affordable housing paired with supportive services for individuals with disabilities who meet the federal definition of chronically homeless. Eligibility is based on housing and disability status, not income alone."},
+{n:"Rapid Rehousing",c:"crisis",t:"c",h:999,s:1,u:"https://www.fairfaxcounty.gov/homeless/",
+ tip:"Helps individuals and families move out of homelessness quickly with short-term rental assistance and case management. No income limit at entry. 30% AMI applies at program re-evaluation."},
+{n:"Rental Subsidy and Services Program",c:"crisis",t:"c",h:50,u:"https://www.fairfaxcounty.gov/housing/",
+ tip:"Provides ongoing rental subsidies paired with supportive services for households at or below 50% AMI. Combines financial assistance with case management to help households maintain stable housing."},
+{n:"Emergency Rental Assistance Bridge",c:"crisis",t:"c",h:80,u:"https://www.fairfaxcounty.gov/housing/",
+ tip:"Temporary rental assistance for households in a housing crisis for example, facing eviction or a sudden loss of income. Generally serves households below 80% AMI."},
+{n:"Housing Choice Voucher / Project-Based RA",c:"rental",t:"r",h:70,u:"https://www.fairfaxcounty.gov/housing/rentalhousing/housingchoicevoucher",
+ tip:"Federally-funded rental subsidy (Section 8) that helps low-income households afford private market rentals."},
+{n:"FCRHA Portfolio (FCRP)",c:"rental",t:"r",h:80,u:"https://www.fairfaxcounty.gov/housing/rentalhousing/fairfax-county-rental-program",
+ tip:"Affordable rental units owned and managed by the Fairfax County Redevelopment and Housing Authority (FCRHA). Rents are set below market rate for eligible households."},
+{n:"Privately Owned / Tax Credits",c:"rental",t:"r",h:80,u:"https://www.fairfaxcounty.gov/housing/rentalhousing/privately-owned",
+ tip:"Privately owned apartment communities that use federal Low-Income Housing Tax Credits (LIHTC) to offer below-market rents. Apply directly to each property availability varies by location."},
+{n:"ADU Rental Program",c:"rental",t:"r",h:70,u:"https://www.fairfaxcounty.gov/housing/rentalhousing/privately-owned",
+ tip:"Affordable Dwelling Units (ADUs) are below-market rental units required in new residential developments. Rents are capped based on AMI level. Units are scattered throughout the County."},
+{n:"WDU Rental Program",c:"rental",t:"r",h:120,u:"https://www.fairfaxcounty.gov/housing/rentalhousing/privately-owned",
+ tip:"Workforce Dwelling Units (WDUs) are income-restricted rentals for moderate-income households typically teachers, nurses, and first responders who earn too much for other programs but struggle with market rents."},
+{n:"Market Rate Rental Apartments",c:"rental",t:"r",h:999,nl:1,u:"",
+ tip:"Standard market-rate rental apartments with no income restriction. Rent is set by the market."},
+{n:"Down Payment Assistance",c:"forsale",t:"f",h:80,u:"https://www.fairfaxcounty.gov/housing/cdbg",
+ tip:"Grant or forgivable loan funded by the federal Community Development Block Grant (CDBG) program to help eligible first-time homebuyers cover down payment costs. Serves households below 80% AMI."},
+{n:"Down Payment Loan Program",c:"forsale",t:"f",h:80,u:"https://www.fairfaxcounty.gov/housing/homeownership/downpaymentloan",
+ tip:"Fairfax County's own down payment loan program for income-qualifying first-time homebuyers. Provides a second mortgage at low or no interest to help cover the down payment on a home purchase."},
+{n:"ADU / WDU For-Sale Program",c:"forsale",t:"f",h:120,u:"https://www.fairfaxcounty.gov/housing/homeownership/homesforsale",
+ tip:"Below-market-price homes for sale required in new developments. Purchase price is capped based on AMI level. A great opportunity for first-time buyers who cannot afford market-rate homes in Fairfax County."},
+{n:"VA / FHA Mortgages",c:"forsale",t:"f",h:999,u:"https://www.benefits.va.gov/homeloans/",
+ tip:"Government-backed mortgage programs. VA loans are available to eligible veterans and service members with no down payment required. FHA loans allow lower down payments and more flexible credit requirements than conventional loans."},
+{n:"Conventional Mortgages",c:"forsale",t:"f",h:999,nl:1,u:"",
+ tip:"Standard home loans from banks and lenders. Typically require a down payment of 3–20% and good credit. No income restriction available to any qualified borrower."},
+{n:"Market Rate For-Sale Housing",c:"forsale",t:"f",h:999,nl:1,u:"",
+ tip:"Standard market-rate homes for purchase with no income restriction. Shown here as a reference point on the continuum programs like ADU/WDU For-Sale and down payment assistance help make homeownership more attainable."},
+{n:"Mortgage Interest Tax Deduction",c:"forsale",t:"f",h:999,nl:1,u:"",
+ tip:"A federal tax benefit that lets homeowners deduct mortgage interest payments from their taxable income. Most valuable to higher-income homeowners in higher tax brackets. Available to any homeowner with a qualifying mortgage."},
 ];
-const J=[{l:"Human Dev Specialist I",b:"1 earner · HH1 · $66,119",z:1,i:66119},{l:"Admin Assistant V",b:"1 earner · HH1 · $72,440",z:1,i:72440},{l:"Business Analyst I",b:"1 earner · HH2 · $91,700",z:2,i:91700},{l:"Engineer III",b:"1 earner · HH2 · $105,590",z:2,i:105590},{l:"Admin Asst + Human Dev Spec",b:"2 earners · HH4 · $138,560",z:4,i:138560}];
+const J=[{l:"Human Dev Specialist I",b:"1 earner · 1-person household · $66,119",z:1,i:66119},{l:"Admin Assistant V",b:"1 earner · 1-person household · $72,440",z:1,i:72440},{l:"Business Analyst I",b:"1 earner · 2-person household · $91,700",z:2,i:91700},{l:"Engineer III",b:"1 earner · 2-person household · $105,590",z:2,i:105590},{l:"Admin Asst + Human Dev Spec",b:"2 earners · 4-person household · $138,560",z:4,i:138560}];
 const S=[{k:"crisis",l:"Housing Crisis",d:"#F69325"},{k:"rental",l:"Rental Programs",d:"#004AAC"},{k:"forsale",l:"For-Sale Programs",d:"#57AC19"}];
 const CL={c:"bfc",r:"bfr",f:"bff"},CO={c:"#7A4400",r:"#002760",f:"#2B5A06"};
 let sz=4,inc=60000,aj=null;
@@ -172,8 +208,8 @@ S.forEach(se=>{
 const ps=P.filter(p=>p.c===se.k),eg=ps.filter(p=>el(p,inc,sz)).length;
 h+=`<div class="bsh"><div style="background:${se.d};width:6px;height:6px;border-radius:50%;flex-shrink:0"></div>${se.l}<span class="bc">${eg} of ${ps.length} eligible</span></div>`;
 ps.forEach(p=>{
-const e=el(p,inc,sz),r=(p.s||p.h>=999)?100:pct(gv(p.h,sz)),f=e?CL[p.t]:'bfo',sc=!p.s&&p.h<999,cc=e?CO[p.t]:'#A09A88',lc='bl'+(e?' e':''),li=p.nl?p.n:`<a href="${p.u}" target="_blank" rel="noopener">${p.n}</a>`;
-h+=`<div class="br"><div class="${lc}">${li}</div><div class="bt"><div class="bf ${f}" style="width:${r}%"></div>${p.s?'<div class="bfg">Housing status\u2013based</div>':''}${sc?`<div class="bcp" style="left:${r}%;color:${cc}">${p.h}% AMI</div>`:''}<div class="by" style="left:${ip}%"></div></div></div>`;
+const e=el(p,inc,sz),r=(p.s||p.h>=999)?100:pct(gv(p.h,sz)),f=e?CL[p.t]:'bfo',sc=!p.s&&p.h<999,cc=e?CO[p.t]:'#A09A88',lc='bl'+(e?' e':''),li=p.nl?p.n:`<a href="${p.u}" target="_blank" rel="noopener">${p.n}</a>`,tipAttr=p.tip?`data-tip="${p.tip.replace(/"/g,"'")}" data-name="${p.n}"`:'';
+h+=`<div class="br"><div class="${lc}" ${tipAttr}>${li}</div><div class="bt"><div class="bf ${f}" style="width:${r}%"></div>${p.s?'<div class="bfg">Housing status\u2013based</div>':''}${sc?`<div class="bcp" style="left:${r}%;color:${cc}">${p.h}% AMI</div>`:''}<div class="by" style="left:${ip}%"></div></div></div>`;
 })});
 document.getElementById('ba').innerHTML=h;
 }
@@ -182,6 +218,28 @@ bt();bj();render();
 document.getElementById('sl').addEventListener('input',function(){inc=+this.value;cj();render()});
 document.getElementById('hg').addEventListener('click',function(e){const b=e.target.closest('[data-sz]');if(!b)return;sz=+b.dataset.sz;document.querySelectorAll('.hb').forEach(x=>x.classList.toggle('on',x===b));inc=V[60][sz-1];document.getElementById('sl').value=inc;cj();bt();render()});
 document.getElementById('jc').addEventListener('click',function(e){const c=e.target.closest('[data-j]');if(!c)return;const j=J[+c.dataset.j];aj=+c.dataset.j;sz=j.z;inc=j.i;document.querySelectorAll('.hb').forEach(x=>x.classList.toggle('on',+x.dataset.sz===sz));document.getElementById('sl').value=inc;document.querySelectorAll('.jk').forEach(x=>x.classList.toggle('on',+x.dataset.j===aj));bt();render()});
+
+// ── TOOLTIP ────────────────────────────────────────────────
+const tipEl=document.getElementById('tip');
+const tipName=document.getElementById('tip-name');
+const tipBody=document.getElementById('tip-body');
+document.getElementById('ba').addEventListener('mouseover',function(e){
+  const lbl=e.target.closest('[data-tip]');
+  if(!lbl)return;
+  tipName.textContent=lbl.dataset.name;
+  tipBody.textContent=lbl.dataset.tip;
+  tipEl.classList.add('show');
+});
+document.getElementById('ba').addEventListener('mousemove',function(e){
+  const margin=12,tipW=tipEl.offsetWidth,tipH=tipEl.offsetHeight;
+  let x=e.clientX+margin,y=e.clientY+margin;
+  if(x+tipW>window.innerWidth-8)x=e.clientX-tipW-margin;
+  if(y+tipH>window.innerHeight-8)y=e.clientY-tipH-margin;
+  tipEl.style.left=x+'px';tipEl.style.top=y+'px';
+});
+document.getElementById('ba').addEventListener('mouseout',function(e){
+  if(!e.relatedTarget||!e.relatedTarget.closest('[data-tip]'))tipEl.classList.remove('show');
+});
 </script>
 </body>
 </html>
