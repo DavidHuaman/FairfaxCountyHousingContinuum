@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HOPE — Housing Options & Program Eligibility | Fairfax County</title>
+<title>HOPE — Housing Opportunities & Program Eligibility | Fairfax County</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -102,7 +102,25 @@ input[type=range]{width:100%;cursor:pointer;accent-color:var(--blue);height:3px}
 .gl{margin-top:4px;padding-top:3px;border-top:1px solid var(--bdr2);font-size:9px;color:var(--txt3);line-height:1.3;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-weight:500}
 .gd{display:flex;gap:10px;flex-wrap:wrap}.gd strong{font-family:'Cabin';color:var(--txt2);font-weight:700}.gs{font-style:italic}
 
-/* ── TOOLTIP ──────────────────────────────────────────── */
+/* ── LEGACY HATCH ─────────────────────────────────────── */
+.band-hatch{
+  position:absolute;top:0;height:100%;pointer-events:none;
+  background:repeating-linear-gradient(
+    -45deg,
+    rgba(0,0,0,.13) 0px,
+    rgba(0,0,0,.13) 2px,
+    transparent 2px,
+    transparent 6px
+  );
+  border-right:1.5px dashed rgba(0,0,0,.25);
+  border-left:1.5px dashed rgba(0,0,0,.18);
+}
+.band-hatch-lbl{
+  position:absolute;top:50%;transform:translateY(-50%);
+  font-family:'Cabin';font-size:7px;font-weight:700;
+  color:rgba(255,255,255,.85);white-space:nowrap;letter-spacing:.04em;
+  text-transform:uppercase;
+}
 #tip{
   position:fixed;z-index:9999;pointer-events:none;
   background:#2D2D2D;color:#F0EFED;
@@ -120,20 +138,20 @@ input[type=range]{width:100%;cursor:pointer;accent-color:var(--blue);height:3px}
 </head>
 <body>
 <div id="tip"><div id="tip-name"></div><div id="tip-body"></div></div>
-<div class="hdr"><div class="hdr-l"><div class="ttl">Housing Options &amp; Program Eligibility</div></div><div class="meta">Fairfax County HCD · HUD FY2026</div></div>
+<div class="hdr"><div class="hdr-l"><div class="ttl">Housing Opportunities &amp; Program Eligibility</div></div><div class="meta">Fairfax County Dept. of Housing &amp; Community Development · HUD FY2026 Income Limits · HHS 2025 Federal Poverty Guidelines · Washington-Arlington-Alexandria MSA</div></div>
 <div class="steps"><div class="step"><div class="sn">1</div><div class="st">Select your <strong>household size</strong></div></div><div class="step"><div class="sn">2</div><div class="st">Set your <strong>annual income</strong> (before taxes)</div></div><div class="step"><div class="sn">3</div><div class="st">See <strong>programs you may qualify for</strong> — click to learn more</div></div></div>
 <div class="wrap">
 <div class="lp">
 <div><div class="sl">Household size</div><div class="hg" id="hg"><button class="hb" data-sz="1"><span class="hn">1</span>person</button><button class="hb" data-sz="2"><span class="hn">2</span>persons</button><button class="hb" data-sz="3"><span class="hn">3</span>persons</button><button class="hb on" data-sz="4"><span class="hn">4</span>persons</button></div></div>
-<div><div class="sl">Annual household income</div><div class="iv" id="iv">$60,000</div><div id="badge" class="ab ab-b">Below 30% AMI</div><div class="sw"><input type="range" id="sl" min="0" max="420000" step="500" value="60000"><div class="stk" id="stk"></div></div><div class="fp" id="fp"><span style="font-size:12px;flex-shrink:0">⚠</span><span id="fpt"></span></div></div>
+<div><div class="sl">Annual household income</div><div class="iv" id="iv">$60,000</div><div id="badge" class="ab ab-b">Below 30% AMI</div><div class="sw"><input type="range" id="sl" min="0" max="420000" step="500" value="60000"><div class="stk" id="stk"></div></div><div class="fp" id="fp"><span id="fpt"></span></div></div>
 <div class="jb"><div class="jl">Try a county household <span class="jh">— sets size &amp; income</span></div><div class="jc" id="jc"></div><div class="jn">Midpoint of posted FY2026 salary ranges. Combined for multi-earner households.</div></div>
 </div>
 <div class="rp">
-<div class="lg"><div class="li"><div class="ls" style="background:var(--coral)"></div>Housing Crisis</div><div class="li"><div class="ls" style="background:var(--blue)"></div>Rental</div><div class="li"><div class="ls" style="background:var(--green)"></div>For-Sale</div><div class="li"><div class="ls" style="background:#D0CCC0"></div>Not eligible</div><div class="li"><div class="ls" style="background:var(--red);width:2px;border-radius:1px"></div>Your income</div><div class="li"><div class="ls" style="background:#6B6B60;width:1.5px;border-radius:1px"></div>FPL</div></div>
-<div class="ac"><div class="ab2"><div class="fl" id="fll"></div><div class="yl" id="yll"></div></div><div class="ml"><div class="mk mf" id="flbl">FPL</div><div class="mk my" id="ylbl">You</div></div><div class="ar" id="alr"></div></div>
+<div class="lg"><div class="li"><div class="ls" style="background:var(--coral)"></div>Housing Crisis</div><div class="li"><div class="ls" style="background:var(--blue)"></div>Rental</div><div class="li"><div class="ls" style="background:var(--green)"></div>For-Sale</div><div class="li"><div class="ls" style="background:#D0CCC0"></div>Not eligible</div><div class="li"><div class="ls" style="background:var(--red);width:2px;border-radius:1px"></div>Your income</div><div class="li"><div class="ls" style="background:#6B6B60;width:1.5px;border-radius:1px"></div>Federal Poverty Level</div></div>
+<div class="ac"><div class="ab2"><div class="fl" id="fll"></div><div class="yl" id="yll"></div></div><div class="ml"><div class="mk mf" id="flbl">Fed. Poverty Level</div><div class="mk my" id="ylbl">You</div></div><div class="ar" id="alr"></div></div>
 <div id="ba"></div>
 <div class="tr"><div class="tl" id="tll"></div></div>
-<div class="gl"><div class="gd"><span><strong>AMI</strong> Area Median Income</span><span><strong>FPL</strong> Federal Poverty Level</span><span><strong>HUD</strong> US Dept of Housing &amp; Urban Development</span></div><div class="gs">HUD FY2026 · HHS 2025 · Washington-Arlington-Alexandria MSA</div></div>
+<div class="gl"><div class="gd"><span><strong>AMI</strong> Area Median Income</span><span><strong>FPL</strong> Federal Poverty Level (HHS 2025)</span><span><strong>HUD</strong> US Dept of Housing &amp; Urban Development</span></div><div class="gs">HUD FY2026 · HHS 2025 · Washington-Arlington-Alexandria MSA</div></div>
 </div></div>
 <script>
 const V={0:[0,0,0,0],30:[34890,39870,44850,49830],40:[46500,53150,59800,66450],50:[58150,66450,74750,83050],60:[69780,79740,89700,99660],70:[81410,93030,104650,116270],80:[93040,106320,119600,132880],90:[104670,119610,134550,149490],100:[116300,132900,149500,166100],120:[139560,159480,179400,199320],150:[174450,199350,224250,249150],200:[232600,265800,299000,332200],250:[290750,332250,373750,415250]};
@@ -151,7 +169,7 @@ const P=[
  tip:"Provides ongoing rental subsidies paired with supportive services for households at or below 50% AMI. Combines financial assistance with case management to help households maintain stable housing."},
 {n:"Emergency Rental Assistance Bridge",c:"crisis",t:"c",h:80,u:"https://www.fairfaxcounty.gov/housing/",
  tip:"Temporary rental assistance for households in a housing crisis for example, facing eviction or a sudden loss of income. Generally serves households below 80% AMI."},
-{n:"Housing Choice Voucher / Project-Based RA",c:"rental",t:"r",h:70,u:"https://www.fairfaxcounty.gov/housing/rentalhousing/housingchoicevoucher",
+{n:"Housing Choice Voucher / Project-Based RA",c:"rental",t:"r",h:50,u:"https://www.fairfaxcounty.gov/housing/rentalhousing/housingchoicevoucher",
  tip:"Federally-funded rental subsidy (Section 8) that helps low-income households afford private market rentals."},
 {n:"FCRHA Portfolio (FCRP)",c:"rental",t:"r",h:80,u:"https://www.fairfaxcounty.gov/housing/rentalhousing/fairfax-county-rental-program",
  tip:"Affordable rental units owned and managed by the Fairfax County Redevelopment and Housing Authority (FCRHA). Rents are set below market rate for eligible households."},
@@ -159,7 +177,7 @@ const P=[
  tip:"Privately owned apartment communities that use federal Low-Income Housing Tax Credits (LIHTC) to offer below-market rents. Apply directly to each property availability varies by location."},
 {n:"ADU Rental Program",c:"rental",t:"r",h:70,u:"https://www.fairfaxcounty.gov/housing/rentalhousing/privately-owned",
  tip:"Affordable Dwelling Units (ADUs) are below-market rental units required in new residential developments. Rents are capped based on AMI level. Units are scattered throughout the County."},
-{n:"WDU Rental Program",c:"rental",t:"r",h:120,u:"https://www.fairfaxcounty.gov/housing/rentalhousing/privately-owned",
+{n:"WDU Rental Program",c:"rental",t:"r",h:120,legacy:1,u:"https://www.fairfaxcounty.gov/housing/rentalhousing/privately-owned",
  tip:"Workforce Dwelling Units (WDUs) are income-restricted rentals for moderate-income households typically teachers, nurses, and first responders who earn too much for other programs but struggle with market rents."},
 {n:"Market Rate Rental Apartments",c:"rental",t:"r",h:999,nl:1,u:"",
  tip:"Standard market-rate rental apartments with no income restriction. Rent is set by the market."},
@@ -167,7 +185,7 @@ const P=[
  tip:"Grant or forgivable loan funded by the federal Community Development Block Grant (CDBG) program to help eligible first-time homebuyers cover down payment costs. Serves households below 80% AMI."},
 {n:"Down Payment Loan Program",c:"forsale",t:"f",h:80,u:"https://www.fairfaxcounty.gov/housing/homeownership/downpaymentloan",
  tip:"Fairfax County's own down payment loan program for income-qualifying first-time homebuyers. Provides a second mortgage at low or no interest to help cover the down payment on a home purchase."},
-{n:"ADU / WDU For-Sale Program",c:"forsale",t:"f",h:120,u:"https://www.fairfaxcounty.gov/housing/homeownership/homesforsale",
+{n:"ADU / WDU For-Sale Program",c:"forsale",t:"f",h:120,legacy:1,u:"https://www.fairfaxcounty.gov/housing/homeownership/homesforsale",
  tip:"Below-market-price homes for sale required in new developments. Purchase price is capped based on AMI level. A great opportunity for first-time buyers who cannot afford market-rate homes in Fairfax County."},
 {n:"VA / FHA Mortgages",c:"forsale",t:"f",h:999,u:"https://www.benefits.va.gov/homeloans/",
  tip:"Government-backed mortgage programs. VA loans are available to eligible veterans and service members with no down payment required. FHA loans allow lower down payments and more flexible credit requirements than conventional loans."},
@@ -178,7 +196,10 @@ const P=[
 {n:"Mortgage Interest Tax Deduction",c:"forsale",t:"f",h:999,nl:1,u:"",
  tip:"A federal tax benefit that lets homeowners deduct mortgage interest payments from their taxable income. Most valuable to higher-income homeowners in higher tax brackets. Available to any homeowner with a qualifying mortgage."},
 ];
-const J=[{l:"Human Dev Specialist I",b:"1 earner · 1-person household · $66,119",z:1,i:66119},{l:"Admin Assistant V",b:"1 earner · 1-person household · $72,440",z:1,i:72440},{l:"Business Analyst I",b:"1 earner · 2-person household · $91,700",z:2,i:91700},{l:"Engineer III",b:"1 earner · 2-person household · $105,590",z:2,i:105590},{l:"Admin Asst + Human Dev Spec",b:"2 earners · 4-person household · $138,560",z:4,i:138560}];
+const J=[{l:"FCPS Food Service Worker",b:"1 earner · 1-person household · $41,600",z:1,i:41600},
+{l:"Human Dev Specialist I",b:"1 earner · 1-person household · $66,119",z:1,i:66119},
+{l:"Leidos Supply Chain Engineer",b:"1 earner · 2-person household · $83,038",z:2,i:83038},
+{l:"INOVA Registered Nurse",b:"1 earner · 2-person household · $91,520",z:2,i:91520},{l:"Admin Assistant V",b:"1 earner · 1-person household · $72,440",z:1,i:72440},{l:"Business Analyst I",b:"1 earner · 2-person household · $91,700",z:2,i:91700},{l:"Engineer III",b:"1 earner · 2-person household · $105,590",z:2,i:105590},{l:"Admin Asst + Human Dev Spec",b:"2 earners · 4-person household · $138,560",z:4,i:138560}];
 const S=[{k:"crisis",l:"Housing Crisis",d:"#F69325"},{k:"rental",l:"Rental Programs",d:"#004AAC"},{k:"forsale",l:"For-Sale Programs",d:"#57AC19"}];
 const CL={c:"bfc",r:"bfr",f:"bff"},CO={c:"#7A4400",r:"#002760",f:"#2B5A06"};
 let sz=4,inc=60000,aj=null;
@@ -209,7 +230,9 @@ const ps=P.filter(p=>p.c===se.k),eg=ps.filter(p=>el(p,inc,sz)).length;
 h+=`<div class="bsh"><div style="background:${se.d};width:6px;height:6px;border-radius:50%;flex-shrink:0"></div>${se.l}<span class="bc">${eg} of ${ps.length} eligible</span></div>`;
 ps.forEach(p=>{
 const e=el(p,inc,sz),r=(p.s||p.h>=999)?100:pct(gv(p.h,sz)),f=e?CL[p.t]:'bfo',sc=!p.s&&p.h<999,cc=e?CO[p.t]:'#A09A88',lc='bl'+(e?' e':''),li=p.nl?p.n:`<a href="${p.u}" target="_blank" rel="noopener">${p.n}</a>`,tipAttr=p.tip?`data-tip="${p.tip.replace(/"/g,"'")}" data-name="${p.n}"`:'';
-h+=`<div class="br"><div class="${lc}" ${tipAttr}>${li}</div><div class="bt"><div class="bf ${f}" style="width:${r}%"></div>${p.s?'<div class="bfg">Housing status\u2013based</div>':''}${sc?`<div class="bcp" style="left:${r}%;color:${cc}">${p.h}% AMI</div>`:''}<div class="by" style="left:${ip}%"></div></div></div>`;
+const h100=pct(gv(100,sz)),h120=pct(gv(120,sz)),hw=h120-h100;
+const hatchHtml=p.legacy?`<div class="band-hatch" style="left:${h100}%;width:${hw}%"><div class="band-hatch-lbl" style="left:calc(50% - 16px)">Legacy Units</div></div>`:'';
+h+=`<div class="br"><div class="${lc}" ${tipAttr}>${li}</div><div class="bt"><div class="bf ${f}" style="width:${r}%"></div>${p.s?'<div class="bfg">Housing status\u2013based</div>':''}${hatchHtml}${sc?`<div class="bcp" style="left:${r}%;color:${cc}">${p.h}% AMI</div>`:''}<div class="by" style="left:${ip}%"></div></div></div>`;
 })});
 document.getElementById('ba').innerHTML=h;
 }
