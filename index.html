@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HOPE — Housing Opportunities & Program Eligibility | Fairfax County</title>
+<title>HOPE — Housing Opportunities & Program Eligibility (HOPE) Tool | Fairfax County</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -138,7 +138,7 @@ input[type=range]{width:100%;cursor:pointer;accent-color:var(--blue);height:3px}
 </head>
 <body>
 <div id="tip"><div id="tip-name"></div><div id="tip-body"></div></div>
-<div class="hdr"><div class="hdr-l"><div class="ttl">Housing Opportunities &amp; Program Eligibility</div></div><div class="meta">Fairfax County Dept. of Housing &amp; Community Development · HUD FY2026 Income Limits · HHS 2025 Federal Poverty Guidelines · Washington-Arlington-Alexandria MSA</div></div>
+<div class="hdr"><div class="hdr-l"><div class="ttl">Housing Opportunities &amp; Program Eligibility (HOPE) Tool</div></div><div class="meta">Fairfax County Dept. of Housing &amp; Community Development · HUD FY2026 Income Limits · HHS 2025 Federal Poverty Guidelines · Washington-Arlington-Alexandria MSA</div></div>
 <div class="steps"><div class="step"><div class="sn">1</div><div class="st">Select your <strong>household size</strong></div></div><div class="step"><div class="sn">2</div><div class="st">Set your <strong>annual income</strong> (before taxes)</div></div><div class="step"><div class="sn">3</div><div class="st">See <strong>programs you may qualify for</strong> — click to learn more</div></div></div>
 <div class="wrap">
 <div class="lp">
@@ -196,10 +196,10 @@ const P=[
 {n:"Mortgage Interest Tax Deduction",c:"forsale",t:"f",h:999,nl:1,u:"",
  tip:"A federal tax benefit that lets homeowners deduct mortgage interest payments from their taxable income. Most valuable to higher-income homeowners in higher tax brackets. Available to any homeowner with a qualifying mortgage."},
 ];
-const J=[{l:"FCPS Food Service Worker",b:"1 earner · 1-person household · $41,600",z:1,i:41600},
+const J=[{l:"Public School Food Service Worker",b:"1 earner · 1-person household · $41,600",z:1,i:41600},
 {l:"Human Dev Specialist I",b:"1 earner · 1-person household · $66,119",z:1,i:66119},
-{l:"Leidos Supply Chain Engineer",b:"1 earner · 2-person household · $83,038",z:2,i:83038},
-{l:"INOVA Registered Nurse",b:"1 earner · 2-person household · $91,520",z:2,i:91520},{l:"Admin Assistant V",b:"1 earner · 1-person household · $72,440",z:1,i:72440},{l:"Business Analyst I",b:"1 earner · 2-person household · $91,700",z:2,i:91700},{l:"Engineer III",b:"1 earner · 2-person household · $105,590",z:2,i:105590},{l:"Admin Asst + Human Dev Spec",b:"2 earners · 4-person household · $138,560",z:4,i:138560}];
+{l:"Supply Chain Engineer",b:"1 earner · 2-person household · $83,038",z:2,i:83038},
+{l:"Registered Nurse",b:"1 earner · 2-person household · $91,520",z:2,i:91520},{l:"Admin Assistant V",b:"1 earner · 1-person household · $72,440",z:1,i:72440},{l:"Business Analyst I",b:"1 earner · 2-person household · $91,700",z:2,i:91700},{l:"Engineer III",b:"1 earner · 2-person household · $105,590",z:2,i:105590},{l:"Admin Asst + Human Dev Spec",b:"2 earners · 4-person household · $138,560",z:4,i:138560}];
 const S=[{k:"crisis",l:"Housing Crisis",d:"#F69325"},{k:"rental",l:"Rental Programs",d:"#004AAC"},{k:"forsale",l:"For-Sale Programs",d:"#57AC19"}];
 const CL={c:"bfc",r:"bfr",f:"bff"},CO={c:"#7A4400",r:"#002760",f:"#2B5A06"};
 let sz=4,inc=60000,aj=null;
