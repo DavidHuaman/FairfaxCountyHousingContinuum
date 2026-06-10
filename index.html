@@ -10,8 +10,15 @@
 <style>
 :root{--coral:#F69325;--coral-lt:#FEF0DC;--coral-dk:#7A4400;--green:#57AC19;--green-lt:#E6F4D7;--green-dk:#2B5A06;--blue:#004AAC;--blue-lt:#D9E7FA;--blue-dk:#002760;--bg:#F5F5F2;--card:#FFF;--bdr:#E0DDD6;--bdr2:#ECEAE3;--txt:#1A1A1A;--txt2:#4A4A4A;--txt3:#8C8C86;--red:#C8453C;--red-lt:#FBE5E2;--red-dk:#6B1A14}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden}
-body{font-family:'Montserrat',system-ui,sans-serif;background:var(--bg);color:var(--txt);font-size:12px;line-height:1.35;padding:8px 12px 6px;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
+html,body{height:100%;overflow:hidden;margin:0;padding:0}
+body{font-family:'Montserrat',system-ui,sans-serif;background:var(--bg);color:var(--txt);font-size:12px;line-height:1.35;-webkit-font-smoothing:antialiased}
+.scale-wrap{
+  width:1280px;height:768px;
+  transform-origin:top left;
+  padding:8px 12px 6px;
+  display:flex;flex-direction:column;
+  background:var(--bg);
+}
 
 /* ── HEADER — compact single line ─────────────────────── */
 .hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-shrink:0}
@@ -137,6 +144,7 @@ input[type=range]{width:100%;cursor:pointer;accent-color:var(--blue);height:3px}
 </style>
 </head>
 <body>
+<div class="scale-wrap" id="scaleWrap">
 <div id="tip"><div id="tip-name"></div><div id="tip-body"></div></div>
 <div class="hdr"><div class="hdr-l"><div class="ttl">Housing Opportunities &amp; Program Eligibility (HOPE) Tool</div></div><div class="meta">Fairfax County Dept. of Housing &amp; Community Development · HUD FY2026 Income Limits · HHS 2025 Federal Poverty Guidelines · Washington-Arlington-Alexandria MSA</div></div>
 <div class="steps"><div class="step"><div class="sn">1</div><div class="st">Select your <strong>household size</strong></div></div><div class="step"><div class="sn">2</div><div class="st">Set your <strong>annual income</strong> (before taxes)</div></div><div class="step"><div class="sn">3</div><div class="st">See <strong>programs you may qualify for</strong> — click to learn more</div></div></div>
@@ -264,5 +272,28 @@ document.getElementById('ba').addEventListener('mouseout',function(e){
   if(!e.relatedTarget||!e.relatedTarget.closest('[data-tip]'))tipEl.classList.remove('show');
 });
 </script>
+</div><!-- /scale-wrap -->
+<script>
+(function(){
+  function scaleApp(){
+    var wrap = document.getElementById('scaleWrap');
+    if(!wrap) return;
+    var sw = window.innerWidth;
+    var sh = window.innerHeight;
+    var scaleX = sw / 1280;
+    var scaleY = sh / 768;
+    var scale = Math.min(scaleX, scaleY);
+    wrap.style.transform = 'scale(' + scale + ')';
+    // Center horizontally if wider than needed
+    var scaledW = 1280 * scale;
+    var scaledH = 768 * scale;
+    wrap.style.marginLeft = ((sw - scaledW) / 2) + 'px';
+    wrap.style.marginTop = ((sh - scaledH) / 2) + 'px';
+  }
+  scaleApp();
+  window.addEventListener('resize', scaleApp);
+})();
+</script>
+
 </body>
 </html>
